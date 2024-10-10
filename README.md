@@ -25,3 +25,16 @@ I am going to use the required technologies in the following ways:
   * querying Chat GPT w/API
 * DB/Login - Store users, folders, whiteboards, queries/results, notes, and their positions within a whiteboard in database. Register and login users. Credentials securely stored in database. Can't query unless authenticated.
 * WebSocket - When a user updates a shared whiteboard, shared users can see it as it's updated live.
+
+
+# HTML deliverable
+## Webpages
+The following webpages were added:
+- about.html
+  - includes text for info about the product
+- index.html
+  - homepage with login
+- notes.html
+  - page to view Notebooks, Folders, and Pages
+- share-notes.html
+  - page to share a Notebook with someone
