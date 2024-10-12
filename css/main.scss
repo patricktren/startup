@@ -49,6 +49,7 @@ nav {
 }
 
 .main-login {
+    min-height: 73vh;
     background-color: #212121;
     @extend .txt-white;
     padding: 75px 100px;
@@ -67,7 +68,7 @@ footer {
     @extend .txt-white;
     background-color: #2f2f2f;
     display: flex;
-    min-height: 600px;
+    min-height: 100vh;
 }
 .section-notes {
     // height: 100%;
