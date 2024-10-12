@@ -45,6 +45,7 @@ nav {
   display: block;
   margin-top: 10px;
   margin-right: 20px;
+  text-align: right;
 }
 
 .main-login {
@@ -63,6 +64,11 @@ footer {
 /* text, buttons, images */
 .txt-green, .btn-green, a, nav, footer {
   color: #09ed92;
+  font-family: sans-serif;
+}
+
+.txt-white {
+  color: #eeeeee;
   font-family: sans-serif;
 }
 
