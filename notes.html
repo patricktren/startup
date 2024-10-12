@@ -17,7 +17,7 @@
 
 <body class="body-home">
     <header>
-        <img src="gpt-notes_logo_darkmode.png" alt="GPT-Notes" width="300">
+        <img src="gpt-notes_logo_extradarkmode.png" alt="GPT-Notes" width="300">
         <nav>
             <ul class="nav-ui">
                 <li class="nav-li"><a href="index.html">Home</a></li>
@@ -34,34 +34,25 @@
         </nav>
     </header>
 
-    <main>
-        <section>
-            <h2>Notebooks</h2>
-            <ul>
-                <li>Notebook 1 (from database)</li>
-                <li>Notebook 2 (from database)</li>
-                <li>Shared Notebook</li>
-            </ul>
-            
-        </section>
-        <section>
-            <h2>Folders</h2>
-            <ul>
+    <main class="main-notes">
+        <section class="section-notes">
+            <h4>Folders</h4>
+            <ul class="ui-notes">
                 <li>Notebook 1 Folder 1 (from database)</li>
                 <li>Notebook 1 Folder 2 (from database)</li>
                 <li>Shared Notebook Folder 3</li>
             </ul>
         </section>
-        <section>
-            <h2>Pages</h2>
-            <ul>
+        <section class="section-notes">
+            <h4>Pages</h4>
+            <ul class="ui-notes">
                 <li>Notebook 1 Folder 1 Page 1 (from database)</li>
                 <li>Notebook 1 Folder 2 Page 2 (from database)</li>
                 <li>Shared Notebook Folder 3 Page 1</li>
             </ul>
         </section>
-        <section>
-            <h2>Current Page</h2>
+        <section class="section-notes-text-area">
+            <h4>Current Page</h4>
             <p>Database data -- notes created by user</p>
             <p>Websocket data -- notes created by user and/or other user that updates live as either user edits</p>
             
@@ -71,13 +62,11 @@
             <input type="text" name="" id="">
             
             <p>3rd Party service calls -- calls to Chat-GPT based on the user's input</p>
-            <img src="../gpt-notes_design.PNG" alt="Notes.html design concept" width="1000">
+            <!-- <img src="../gpt-notes_design.PNG" alt="Notes.html design concept" width="1000"> -->
         </section>
     </main>
     <footer>
-        <hr> <!-- horizontal line -->
-        <a href="https://github.com/patricktren/startup/tree/main" target="_blank"><h3>GitHub</h3></a>
-
+        <a href="https://github.com/patricktren/startup/tree/main" target="_blank">GitHub</a>
     </footer>
 </body>
 </html>

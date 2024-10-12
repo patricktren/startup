@@ -1,7 +1,7 @@
 
 /* sections */
 .body-home {
-    background-color: #212121;
+    background-color: #171717;
 }
 
 header {
@@ -49,18 +49,43 @@ nav {
 }
 
 .main-login {
-    color: #eeeeee;
-    margin: 75px 100px;
+    background-color: #212121;
+    @extend .txt-white;
+    padding: 75px 100px;
 }
 
 footer {
     @extend .txt-green;
     display: flex;
     margin-right: 50px;
-    justify-content: right;
-    align-items: center;
+    justify-content: center;
 }
 /* end of sections */
+
+/* notes page */
+.main-notes {
+    @extend .txt-white;
+    background-color: #2f2f2f;
+    display: flex;
+    min-height: 600px;
+}
+.section-notes {
+    // height: 100%;
+    width: 150px;
+    margin: 0px 0px;
+    background-color: #212121;
+    border-right: 5px solid #171717;
+}
+.section-notes-text-area {
+    padding: 10px;
+}
+
+.ui-notes {
+    list-style: none;
+    padding: 1px 10px;
+}
+
+/* end of notes page */
 
 
 /* text, buttons, images */
@@ -77,7 +102,7 @@ a {
     text-decoration: none;
 }
 a:hover {
-    color:#eeeeee;
+    @extend .txt-white;
 }
 
 
@@ -85,7 +110,9 @@ a:hover {
 
     @extend .txt-green;
     background-color: #2f2f2f;
-
+}
+.btn-green:hover {
+    @extend .txt-white;
 }
 
 .input-text {
@@ -95,7 +122,7 @@ a:hover {
     border-radius: 20px;
     padding-left: 5px;
     /*text*/
-    color: #eeeeee;
+    @extend .txt-white;
 }
 
 img {
