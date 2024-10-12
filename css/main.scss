@@ -9,6 +9,20 @@ header {
     margin-left: 15px;
     margin-right: 0px;
 }
+@media (max-width: 900px) {
+    header {
+        flex-direction: column;
+    }
+    nav {
+        flex-direction: column;
+    }
+    .nav-ui {
+        flex-direction: column;
+    }
+    .nav-div-user-info {
+        margin-left: 62px;
+    }
+}
 nav {
     @extend .txt-green;
     display: flex;
@@ -35,7 +49,7 @@ nav {
 }
 
 .main-login {
-    @extend .txt-green;
+    color: #eeeeee;
     margin: 75px 100px;
 }
 
@@ -57,7 +71,9 @@ footer {
 a {
     @extend .txt-green;
     text-decoration: none;
-    
+}
+a:hover {
+    color:#eeeeee;
 }
 
 

@@ -9,6 +9,20 @@ header {
   margin-right: 0px;
 }
 
+@media (max-width: 900px) {
+  header {
+    flex-direction: column;
+  }
+  nav {
+    flex-direction: column;
+  }
+  .nav-ui {
+    flex-direction: column;
+  }
+  .nav-div-user-info {
+    margin-left: 62px;
+  }
+}
 nav {
   display: flex;
   width: 100%;
@@ -34,6 +48,7 @@ nav {
 }
 
 .main-login {
+  color: #eeeeee;
   margin: 75px 100px;
 }
 
@@ -46,13 +61,17 @@ footer {
 
 /* end of sections */
 /* text, buttons, images */
-.txt-green, .btn-green, a, nav, .main-login, footer {
+.txt-green, .btn-green, a, nav, footer {
   color: #09ed92;
   font-family: sans-serif;
 }
 
 a {
   text-decoration: none;
+}
+
+a:hover {
+  color: #eeeeee;
 }
 
 .btn-green {
