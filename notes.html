@@ -37,18 +37,18 @@
     <main class="main-notes">
         <section class="section-notes">
             <h4>Folders</h4>
-            <ul class="ui-notes">
-                <li>Notebook 1 Folder 1 (from database)</li>
-                <li>Notebook 1 Folder 2 (from database)</li>
+            <ul class="ul-notes">
+                <li>Folder 1 (from database)</li>
+                <li>Folder 2 (shared via Websockets)</li>
                 <li>Shared Notebook Folder 3</li>
             </ul>
         </section>
         <section class="section-notes">
             <h4>Pages</h4>
-            <ul class="ui-notes">
-                <li>Notebook 1 Folder 1 Page 1 (from database)</li>
-                <li>Notebook 1 Folder 2 Page 2 (from database)</li>
-                <li>Shared Notebook Folder 3 Page 1</li>
+            <ul class="ul-notes">
+                <li>Page 1 (from database)</li>
+                <li>Page 2 (from database)</li>
+                <li>Page 3 (from database)</li>
             </ul>
         </section>
         <section class="section-notes-text-area">
@@ -56,10 +56,20 @@
             <p>Database data -- notes created by user</p>
             <p>Websocket data -- notes created by user and/or other user that updates live as either user edits</p>
             
-            <p>Query:</p>
-            <input type="text" name="" id="">
+            <p>Example Query:</p>
+            <div class="div-note">
+                <div class="div-note-grabber">....</div>
+                <textarea class="input-note">Query: Type your query or notes here...
+
+Chat-GPT: (Editable) Response from Chat-GPT...
+                </textarea>
+            </div>
+            
             <p>(Editable) Response from Chat-GPT:</p>
-            <input type="text" name="" id="">
+            <div class="div-note">
+                <div class="div-note-grabber">....</div>
+                <textarea class="input-note"></textarea>
+            </div>
             
             <p>3rd Party service calls -- calls to Chat-GPT based on the user's input</p>
             <!-- <img src="../gpt-notes_design.PNG" alt="Notes.html design concept" width="1000"> -->
