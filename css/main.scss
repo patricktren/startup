@@ -49,10 +49,12 @@ nav {
 }
 
 .main-login {
+    display: flex;
     min-height: 73vh;
     background-color: #212121;
     @extend .txt-white;
     padding: 75px 100px;
+
 }
 
 footer {
@@ -196,6 +198,11 @@ a:hover {
 
 img {
     pointer-events: none;
+}
+
+.img-hero {
+    border-radius: 30px;
+    margin-left: 150px;
 }
 
 /* end of text, buttons, images */

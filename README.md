@@ -38,3 +38,27 @@ The following webpages were added:
   - page to view Notebooks, Folders, and Pages
 - share-notes.html
   - page to share a Notebook with someone
+
+# CSS deliverable
+## Webpages
+The following webpages were added:
+- about.html
+  - added CSS for header and text
+  - dark theme
+- index.html
+  - added CSS for header and text
+  - added image, CSS for image
+  - added CSS for login input boxes, buttons, nav
+  - dark theme
+- notes.html
+  - removed the Notebooks section
+  - added CSS for header and text
+  - added extensive CSS for the Folders and Pages section
+    - dark theme
+  - added extensive CSS for the textarea in the Current Page section
+    - textarea is resizeable in both directions
+    - dark theme
+- share-notes.html
+  - added CSS for header and text
+  - added CSS for email input to share
+  - dark theme

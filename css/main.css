@@ -49,6 +49,7 @@ nav {
 }
 
 .main-login {
+  display: flex;
   min-height: 73vh;
   background-color: #212121;
   padding: 75px 100px;
@@ -190,6 +191,11 @@ a {
 
 img {
   pointer-events: none;
+}
+
+.img-hero {
+  border-radius: 30px;
+  margin-left: 150px;
 }
 
 /* end of text, buttons, images */
