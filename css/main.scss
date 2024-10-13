@@ -71,11 +71,39 @@ footer {
     min-height: 100vh;
 }
 .section-notes {
+    @extend .scrollbar-dark;
     // height: 100%;
     width: 150px;
     margin: 0px 0px;
     background-color: #212121;
     border-right: 5px solid #171717;
+    overflow:auto;
+    text-overflow: clip;
+    resize: horizontal;
+}
+
+/* WebKit browsers (Chrome, Safari) */
+.scrollbar-dark {
+    color: inherit;
+}
+.scrollbar-dark::-webkit-scrollbar {
+    width: 12px; /* Width of the scrollbar */
+}
+
+.scrollbar-dark::-webkit-scrollbar-track {
+    background: #212121; /* Background color of the scrollbar track */
+}
+
+.scrollbar-dark::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the scrollbar thumb */
+    border-radius: 6px; /* Rounded corners for thumb */
+}
+
+.scrollbar-dark::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color of the thumb on hover */
+}
+.scrollbar-dark::-webkit-resizer {
+    background: #555; /* Color of the thumb on hover */
 }
 .section-notes-text-area {
     padding: 10px;
@@ -127,10 +155,12 @@ a:hover {
 
 .input-note {
     @extend .input-txt;
+    @extend .scrollbar-dark;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
     border-radius: 1px;
+    resize: both;
 }
 .input-note:hover {
     border: #212121 2px solid;
@@ -140,7 +170,7 @@ a:hover {
     outline: none;
 }
 .div-note {
-    min-height: 50px;
+    min-height: 100px;
 }
 .div-note-grabber {
     opacity: 0;

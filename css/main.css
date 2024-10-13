@@ -73,6 +73,35 @@ footer {
   margin: 0px 0px;
   background-color: #212121;
   border-right: 5px solid #171717;
+  overflow: auto;
+  text-overflow: clip;
+  resize: horizontal;
+}
+
+/* WebKit browsers (Chrome, Safari) */
+.scrollbar-dark, .input-note, .section-notes {
+  color: inherit;
+}
+
+.scrollbar-dark::-webkit-scrollbar, .input-note::-webkit-scrollbar, .section-notes::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+.scrollbar-dark::-webkit-scrollbar-track, .input-note::-webkit-scrollbar-track, .section-notes::-webkit-scrollbar-track {
+  background: #212121; /* Background color of the scrollbar track */
+}
+
+.scrollbar-dark::-webkit-scrollbar-thumb, .input-note::-webkit-scrollbar-thumb, .section-notes::-webkit-scrollbar-thumb {
+  background: #888; /* Color of the scrollbar thumb */
+  border-radius: 6px; /* Rounded corners for thumb */
+}
+
+.scrollbar-dark::-webkit-scrollbar-thumb:hover, .input-note::-webkit-scrollbar-thumb:hover, .section-notes::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Color of the thumb on hover */
+}
+
+.scrollbar-dark::-webkit-resizer, .input-note::-webkit-resizer, .section-notes::-webkit-resizer {
+  background: #555; /* Color of the thumb on hover */
 }
 
 .section-notes-text-area {
@@ -117,6 +146,7 @@ a {
   height: 100%;
   box-sizing: border-box;
   border-radius: 1px;
+  resize: both;
 }
 
 .input-note:hover {
@@ -129,7 +159,7 @@ a {
 }
 
 .div-note {
-  min-height: 50px;
+  min-height: 100px;
 }
 
 .div-note-grabber {
