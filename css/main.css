@@ -69,48 +69,35 @@ footer {
 }
 
 .section-notes {
-  width: 150px;
+  width: 100px;
   margin: 0px 0px;
   background-color: #212121;
   border-right: 5px solid #171717;
+  white-space: nowrap;
   overflow: auto;
   text-overflow: clip;
   resize: horizontal;
 }
 
-/* WebKit browsers (Chrome, Safari) */
-.scrollbar-dark, .input-note, .section-notes {
-  color: inherit;
-}
-
-.scrollbar-dark::-webkit-scrollbar, .input-note::-webkit-scrollbar, .section-notes::-webkit-scrollbar {
-  width: 12px; /* Width of the scrollbar */
-}
-
-.scrollbar-dark::-webkit-scrollbar-track, .input-note::-webkit-scrollbar-track, .section-notes::-webkit-scrollbar-track {
-  background: #212121; /* Background color of the scrollbar track */
-}
-
-.scrollbar-dark::-webkit-scrollbar-thumb, .input-note::-webkit-scrollbar-thumb, .section-notes::-webkit-scrollbar-thumb {
-  background: #888; /* Color of the scrollbar thumb */
-  border-radius: 6px; /* Rounded corners for thumb */
-}
-
-.scrollbar-dark::-webkit-scrollbar-thumb:hover, .input-note::-webkit-scrollbar-thumb:hover, .section-notes::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Color of the thumb on hover */
-}
-
-.scrollbar-dark::-webkit-resizer, .input-note::-webkit-resizer, .section-notes::-webkit-resizer {
-  background: #555; /* Color of the thumb on hover */
-}
-
 .section-notes-text-area {
   padding: 10px;
+  width: 90%;
 }
 
 .ul-notes {
   list-style: none;
-  padding: 1px 10px;
+  padding-left: 0;
+}
+
+.li-notes {
+  padding-left: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.li-notes:hover {
+  background-color: #2f2f2f;
+  cursor: pointer;
 }
 
 /* end of notes page */
@@ -173,6 +160,32 @@ a {
 .div-note-grabber:hover {
   opacity: 1;
   cursor: move;
+}
+
+/* WebKit browsers (Chrome, Safari) */
+.scrollbar-dark, .section-notes, .input-note {
+  color: inherit;
+}
+
+.scrollbar-dark::-webkit-scrollbar, .section-notes::-webkit-scrollbar, .input-note::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+.scrollbar-dark::-webkit-scrollbar-track, .section-notes::-webkit-scrollbar-track, .input-note::-webkit-scrollbar-track {
+  background: #212121; /* Background color of the scrollbar track */
+}
+
+.scrollbar-dark::-webkit-scrollbar-thumb, .section-notes::-webkit-scrollbar-thumb, .input-note::-webkit-scrollbar-thumb {
+  background: #888; /* Color of the scrollbar thumb */
+  border-radius: 6px; /* Rounded corners for thumb */
+}
+
+.scrollbar-dark::-webkit-scrollbar-thumb:hover, .section-notes::-webkit-scrollbar-thumb:hover, .input-note::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Color of the thumb on hover */
+}
+
+.scrollbar-dark::-webkit-resizer, .section-notes::-webkit-resizer, .input-note::-webkit-resizer {
+  background: #555; /* Color of the thumb on hover */
 }
 
 img {
