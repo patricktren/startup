@@ -5,6 +5,7 @@ import { useState } from 'react';
 // sites and css
 import { Index } from './pages/index.jsx';
 import { Notes } from './pages/notes.jsx';
+import { ShareNotes } from './pages/shareNotes.jsx';
 
 import './css/main.css';
 // images
@@ -20,7 +21,7 @@ function App() {
                         <ul class="nav-ui">
                             <li class="nav-li"><NavLink to="">Home</NavLink></li>
                             <li class="nav-li"><NavLink to="notes">Notes</NavLink></li>
-                            <li class="nav-li"><a href="share-notes.html">Share Notes</a></li>
+                            <li class="nav-li"><NavLink to="share-notes">Share Notes</NavLink></li>
                             <li class="nav-li"><a href="about.html">About</a></li>
                         </ul>
 
@@ -33,6 +34,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Index />} />
                     <Route path="/notes" element={<Notes />} />
+                    <Route path="/share-notes" element={<ShareNotes />} />
                 </Routes>
                 <footer>
                     <a href="https://github.com/patricktren/startup/tree/main" target="_blank">GitHub - Patrick Warren</a>
