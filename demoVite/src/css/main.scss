@@ -1,0 +1,212 @@
+
+/* sections */
+.body-home {
+    background-color: #171717;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+header {
+    display: flex;
+    margin-left: 15px;
+    margin-right: 0px;
+}
+@media (max-width: 900px) {
+    header {
+        flex-direction: column;
+    }
+    nav {
+        flex-direction: column;
+    }
+    .nav-ui {
+        flex-direction: column;
+    }
+    .nav-div-user-info {
+        margin-left: 62px;
+    }
+}
+nav {
+    @extend .txt-green;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    
+}
+.nav-ui {
+    display: flex;
+    list-style: none;
+    margin: 30px;
+    margin-top: 50px;
+    font-weight: 800;
+}
+.nav-li {
+    padding-right: 50px;
+}
+
+.nav-div-user-info {
+    display: block;
+    margin-top: 10px;
+    margin-right: 20px;
+    text-align: right;
+}
+
+.main-login {
+    display: flex;
+    min-height: 73vh;
+    background-color: #212121;
+    @extend .txt-white;
+    padding: 75px 100px;
+
+}
+
+footer {
+    @extend .txt-green;
+    display: flex;
+    margin-right: 50px;
+    justify-content: center;
+}
+/* end of sections */
+
+/* notes page */
+.main-notes {
+    @extend .txt-white;
+    background-color: #2f2f2f;
+    display: flex;
+    min-height: 100vh;
+}
+.section-notes {
+    @extend .scrollbar-dark;
+    width: 100px;
+    margin: 0px 0px;
+    background-color: #212121;
+    border-right: 5px solid #171717;
+    white-space: nowrap;
+    overflow:auto;
+    text-overflow: clip;
+    resize: horizontal;
+}
+
+.section-notes-text-area {
+    padding: 10px;
+    width: 90%;
+}
+
+.ul-notes {
+    list-style: none;
+    padding-left: 0;
+}
+.li-notes {
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.li-notes:hover {
+    background-color: #2f2f2f;
+    cursor: pointer;
+}
+
+/* end of notes page */
+
+
+/* text, buttons, images */
+.txt-green{
+    color: #09ed92;
+    font-family: sans-serif;
+}
+.txt-white {
+    color: #eeeeee;
+    font-family: sans-serif;
+}
+a {
+    @extend .txt-green;
+    text-decoration: none;
+}
+a:hover {
+    @extend .txt-white;
+}
+
+.btn-green {
+
+    @extend .txt-green;
+    background-color: #2f2f2f;
+}
+.btn-green:hover {
+    @extend .txt-white;
+}
+
+.input-txt {
+    /*text box*/
+    background-color: #2f2f2f;
+    border: none;
+    border-radius: 20px;
+    /*text*/
+    @extend .txt-white;
+}
+
+.input-note {
+    @extend .input-txt;
+    @extend .scrollbar-dark;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: 1px;
+    resize: both;
+}
+.input-note:hover {
+    border: #212121 2px solid;
+}
+.input-note:focus {
+    border: #212121 2px solid;
+    outline: none;
+}
+.div-note {
+    min-height: 100px;
+}
+.div-note-grabber {
+    opacity: 0;
+    max-height: min-content;
+    background-color: #212121;
+    text-align: center;
+    user-select: none;
+}
+.div-note-grabber:hover {
+    opacity: 1;
+    cursor: move;
+}
+
+/* WebKit browsers (Chrome, Safari) */
+.scrollbar-dark {
+    color: inherit;
+}
+.scrollbar-dark::-webkit-scrollbar {
+    width: 12px; /* Width of the scrollbar */
+}
+
+.scrollbar-dark::-webkit-scrollbar-track {
+    background: #212121; /* Background color of the scrollbar track */
+}
+
+.scrollbar-dark::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the scrollbar thumb */
+    border-radius: 6px; /* Rounded corners for thumb */
+}
+
+.scrollbar-dark::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color of the thumb on hover */
+}
+.scrollbar-dark::-webkit-resizer {
+    background: #555; /* Color of the thumb on hover */
+}
+
+img {
+    pointer-events: none;
+}
+
+.img-hero {
+    border-radius: 30px;
+    margin-left: 150px;
+}
+
+/* end of text, buttons, images */
