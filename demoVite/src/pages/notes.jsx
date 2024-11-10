@@ -8,7 +8,7 @@ export function Notes(props) {
     return (
         <main className="main-notes">
             <section className="section-notes scrollbard-darkmode">
-                <h4 style="text-align: center; margin-top: 5px;">Folders</h4>
+                <h4 style={{ textAlign: "center", marginTop: "5px" }}>Folders</h4>
                 <ul className="ul-notes">
                     <li className="li-notes">Folder 1 (from database)</li>
                     <li className="li-notes">Folder 2</li>
@@ -16,7 +16,7 @@ export function Notes(props) {
                 </ul>
             </section>
             <section className="section-notes">
-                <h4 style="text-align: center; margin-top: 5px;">Pages</h4>
+                <h4 style={{ textAlign: "center", marginTop: "5px" }}>Pages</h4>
                 <ul className="ul-notes">
                     <li className="li-notes">Page 1 (from database)</li>
                     <li className="li-notes">Page 2 (from database)</li>
