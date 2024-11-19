@@ -134,7 +134,8 @@ a {
   height: 100%;
   box-sizing: border-box;
   border-radius: 1px;
-  resize: both;
+  resize: none;
+  flex: 1;
 }
 
 .input-note:hover {
@@ -148,9 +149,14 @@ a {
 
 .div-note {
   min-height: 100px;
+  display: flex;
+  resize: both;
+  overflow: auto;
+  flex-direction: column;
 }
 
 .div-note-grabber {
+  flex-shrink: 0;
   opacity: 0;
   max-height: min-content;
   background-color: #212121;
@@ -158,7 +164,7 @@ a {
   user-select: none;
 }
 
-.div-note-grabber:hover {
+.div-note:hover .div-note-grabber {
   opacity: 1;
   cursor: move;
 }
