@@ -13,7 +13,7 @@ export function Notes() {
     // const {deltaPosition, controlledPosition} = this.state;
     return (
         <main className="main-notes">
-            <section className="section-notes scrollbard-darkmode">
+            <section className="section-notes">
                 <img scr={folder_image} alt="Folder" width="100" />
                 <h4 style={{ textAlign: "center", marginTop: "5px" }}>Folders</h4>
 
@@ -31,36 +31,22 @@ export function Notes() {
                     <li className="li-notes">Page 3 (from database)</li>
                 </ul>
             </section>
-            
+
             <section className="section-notes-text-area">
-                <h4>Current Page</h4>
-                <hr />
-                <p>Database data -- notes created by user</p>
-                <p>Websocket data -- notes created by user and/or other user that updates live as either user edits</p>
-
-
-                <p>Example Query:</p>
-                <Draggable handle='.div-note-grabber'>
-                    <div className="div-note">
-                        <div className="div-note-grabber">....</div>
-                        <textarea className="input-note">Query: Type your query or notes here...
-                            Chat-GPT: (Editable) Response from Chat-GPT...</textarea>
-                    </div>
-                </Draggable>
-                
-                <div className="div-note">
-                    <div className="div-note-grabber">....</div>
-                    <textarea className="input-note"></textarea>
-                    <div className="div-note-grabber">....</div>
-                </div>
-
-                <p>3rd Party service calls -- calls to Chat-GPT based on the user's input.</p>
-                <div className="div-note">
-                    <div className="div-note-grabber">....</div>
-                    <textarea className="input-note">You and a friend can take shared notes here.</textarea>
-                </div>
-                <img src={gpt_notes_design} alt="Notes.html design concept" width="1000" />
+                <Note />
             </section>
         </main>
+    )
+}
+
+function Note() {
+    return (
+        <Draggable handle='.div-note-grabber' bounds='parent'>
+            <div className="div-note">
+                <div className="div-note-grabber">....</div>
+                <textarea className="input-note">Query: Type your query or notes here...
+                    Chat-GPT: (Editable) Response from Chat-GPT...</textarea>
+            </div>
+        </Draggable>
     )
 }
