@@ -150,6 +150,7 @@ a {
 }
 
 .div-note {
+  position: absolute;
   min-height: 100px;
   display: flex;
   resize: both;

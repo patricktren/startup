@@ -152,7 +152,6 @@ a:hover {
     border-radius: 1px;
     resize: none;
     flex: 1;
-    
 }
 .input-note:hover {
     border: #212121 2px solid;
@@ -163,6 +162,7 @@ a:hover {
 }
 
 .div-note {
+    position: absolute;
     min-height: 100px;
     display: flex;
     resize: both;
