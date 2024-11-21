@@ -9,8 +9,9 @@ import folder_image from '../images/folder.png';
 
 
 export function Notes() {
-    const [folders, setFolders] = useState([ {selectFolder:{setSelectedFolder}, id:0} ]);
-    const [pages, setPages] = useState([ { folderId:0, id:0} ])
+    const [folders, setFolders] = useState([{id: 0, name: 'myFolder' }]);
+    const [pages, setPages] = useState([{ folderId: 0, id: 0, name: 'myPage' }]);
+    const [notes, setNotes] = useState([ {pageId: 0, id: 0, x: 0, y: 0, text: ''} ]);
 
     // next folder id
     const [nextFolderId, setNextFolderId] = useState(1);
@@ -18,19 +19,27 @@ export function Notes() {
     // next page id
     const [nextPageId, setNextPageId] = useState(1);
 
+    // next note id
+    const [nextNoteId, setNextNoteId] = useState(1);
+
     // current folder/page
     const [currFolder, setCurrFolder] = useState(folders[0].id);
     const [currPage, setCurrPage] = useState(0);
+
     function setSelectedFolder(folderId) {
         setCurrFolder(folderId);
     }
 
+    function setSelectedPage(pageId) {
+        setCurrPage(pageId);
+    }
+
     const addFolder = () => {
         // create folder
-        setFolders((folders) => [...folders, {id: nextFolderId}]);
+        setFolders((folders) => [...folders, { id: nextFolderId, name: 'myFolder' }]);
 
         // initialize first page
-        setPages((pages) => [...pages, {folderId: nextFolderId, id: nextPageId}]);
+        setPages((pages) => [...pages, { folderId: nextFolderId, id: nextPageId }]);
 
         // increment id's
         setNextFolderId(nextFolderId + 1);
@@ -39,77 +48,19 @@ export function Notes() {
 
     const addPage = () => {
         // create page
-        setPages((pages) => [...pages, {folderId:currFolder, id:nextPageId}]);
+        setPages((pages) => [...pages, { folderId: currFolder, id: nextPageId, name: 'myPage' }]);
 
         // increment page id
         setNextPageId(nextPageId + 1);
+
+        console.log(currPage);
     }
 
-    return (
-        <main className="main-notes">
-            <section className="section-notes">
-                <h4 style={{ textAlign: "center", marginTop: "5px" }}>Folders</h4>
-                <ul className="ul-notes">
-                    {folders.map((folder, index) => {
-                        return (<Folder key={index} selectFolder={setSelectedFolder} id={folder.id} />);
-                    })}
-                    <li className='btn btn-green' onClick={addFolder}>Add folder</li>
-                </ul>
-            </section>
-            <section className="section-notes">
-                <h4 style={{ textAlign: "center", marginTop: "5px" }}>Pages</h4>
-                <ul className="ul-notes">
-                    {pages
-                        .filter((page, index) => page.folderId===currFolder)
-                        .map((page, index) => {
-                        return (<li key={index}>{page.name}</li>);
-                    })}
-                    <li className='btn btn-green' onClick={addPage}>Add page</li>
-                </ul>
-            </section>
-            <Page name='ree' />
-        </main>
-    )
-}
-
-function Folder( {selectFolder, id} ) {
-    const folderId=id;
-    const [folderName, setName] = useState('myFolder');
-    
-    const [readOnly, setReadOnly] = useState(false);
-    const rename = (event) => {
-        setName(event.target.value);
-    }
-    const finishRename = (event) => {
-        if (event.key==='Enter') {
-            setReadOnly(true);
-        }
-    }
-
-
-    function sendSelectedFolder() {
-        if (readOnly == true) {
-            selectFolder(folderId);
-        }
-    }
-
-    const [pages, setPages] = useState([]);
-
-    return (
-        <li className='li-notes'><input className='input-txt' onClick={sendSelectedFolder} onChange={rename} onKeyDown={finishRename} readOnly={readOnly} value={folderName} /></li>
-    )
-}
-
-function Page({ folderId, id, initPageName }) {
-    const [pageName, setName] = useState(initPageName);
-    const [nextNoteId, updateNoteId] = useState(1);
-
-    const [notes, setNotes] = useState([{ id: 0, x: 50, y: 50, text: '' }]);
     const addNote = (event) => {
         if (event.target.className == 'section-blackboard') {
             const x = event.nativeEvent.offsetX;
             const y = event.nativeEvent.offsetY;
-            setNotes((prevNotes) => [...prevNotes, { id: nextNoteId, x: x, y: y, text: '' }]);
+            setNotes((prevNotes) => [...prevNotes, { pageId:currPage, id: nextNoteId, x: x, y: y, text: '' }]);
             // increment nextNoteId
             updateNoteId(nextNoteId + 1);
         }
@@ -121,12 +72,92 @@ function Page({ folderId, id, initPageName }) {
             setNotes(notes.filter(note => note.id != idToDelete));
         }
     }
+
     return (
-        <section className="section-blackboard" onClick={(event) => { addNote(event); deleteNote(event) }}>
-            {notes.map((note, index) => {
-                return (<Note key={index} id={note.id} x={note.x} y={note.y} text={note.text} />);
-            })}
-        </section>
+        <main className="main-notes">
+            <section className="section-notes">
+                <h4 style={{ textAlign: "center", marginTop: "5px" }}>Folders</h4>
+                <ul className="ul-notes">
+                    {folders.map((folder, index) => {
+                        return (<Folder key={index} selectFolderFunc={setSelectedFolder} id={folder.id} name={folder.name} />);
+                    })}
+                    <li className='btn btn-green' onClick={addFolder}>Add folder</li>
+                </ul>
+            </section>
+            <section className="section-notes">
+                <h4 style={{ textAlign: "center", marginTop: "5px" }}>Pages</h4>
+                <ul className="ul-notes">
+                    {pages
+                        .filter((page, index) => page.folderId === currFolder)
+                        .map((page, index) => {
+                            return (<Page key={index} selectPageFunc={setSelectedPage} folderId={page.folderId} id={page.id} name={page.name} />);
+                        })}
+                    <li className='btn btn-green' onClick={addPage}>Add page</li>
+                </ul>
+            </section>
+            <section className="section-blackboard" onClick={(event) => { addNote(event); deleteNote(event) }}>
+                {notes
+                    .filter((note, index) => note.pageId === currPage)
+                    .map((note, index) => {
+                    return (<Note key={index} id={note.id} x={note.x} y={note.y} text={note.text} />);
+                })}
+            </section>
+        </main>
+    )
+}
+
+function Folder({ selectFolderFunc, id, name }) {
+    const folderId = id;
+    const [folderName, setName] = useState(name);
+
+    const [readOnly, setReadOnly] = useState(false);
+    const rename = (event) => {
+        setName(event.target.value);
+    }
+    const finishRename = (event) => {
+        if (event.key === 'Enter') {
+            setReadOnly(true);
+        }
+    }
+
+
+    function sendSelectedFolder() {
+        if (readOnly == true) {
+            selectFolderFunc(folderId);
+        }
+    }
+
+    const [pages, setPages] = useState([]);
+
+    return (
+        <li className='li-notes'><input className='input-txt' onClick={sendSelectedFolder} onChange={rename} onKeyDown={finishRename} readOnly={readOnly} value={folderName} /></li>
+    )
+}
+
+function Page({ selectPageFunc, folderId, id, name }) {
+    const pageId = id;
+    const [pageName, setName] = useState(name);
+
+    // rename page
+    const [readOnly, setReadOnly] = useState(false);
+    const rename = (event) => {
+        setName(event.target.value);
+    }
+
+    const finishRename = (event) => {
+        if (event.key === 'Enter') {
+            setReadOnly(true);
+        }
+    }
+
+    function sendSelectedPage() {
+        if (readOnly == true) {
+            selectPageFunc(pageId);
+        }
+    }
+
+    return (
+        <li className='li-notes'><input className='input-txt' onClick={sendSelectedPage} onChange={rename} onKeyDown={finishRename} readOnly={readOnly} value={pageName} /></li>
     )
 }
 
