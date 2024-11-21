@@ -9,16 +9,41 @@ import folder_image from '../images/folder.png';
 
 
 export function Notes() {
-    let nextFolderId = 1
-    const [folders, setFolders] = useState([ {folderId:0} ]);
+    const [folders, setFolders] = useState([ {selectFolder:{setSelectedFolder}, id:0} ]);
+    const [pages, setPages] = useState([ { folderId:0, id:0} ])
 
-    const addFolder = () => {
-        setFolders((folders) => [...folders, { }]);
+    // next folder id
+    const [nextFolderId, setNextFolderId] = useState(1);
+
+    // next page id
+    const [nextPageId, setNextPageId] = useState(1);
+
+    // current folder/page
+    const [currFolder, setCurrFolder] = useState(folders[0].id);
+    const [currPage, setCurrPage] = useState(0);
+    function setSelectedFolder(folderId) {
+        setCurrFolder(folderId);
     }
 
-    const [currFolder, setCurrFolder] = useState(folders[0]);
-    const [currPage, setCurrPage] = useState(null);
+    const addFolder = () => {
+        // create folder
+        setFolders((folders) => [...folders, {id: nextFolderId}]);
 
+        // initialize first page
+        setPages((pages) => [...pages, {folderId: nextFolderId, id: nextPageId}]);
+
+        // increment id's
+        setNextFolderId(nextFolderId + 1);
+        setNextPageId(nextPageId + 1);
+    }
+
+    const addPage = () => {
+        // create page
+        setPages((pages) => [...pages, {folderId:currFolder, id:nextPageId}]);
+
+        // increment page id
+        setNextPageId(nextPageId + 1);
+    }
 
     return (
         <main className="main-notes">
@@ -26,7 +51,7 @@ export function Notes() {
                 <h4 style={{ textAlign: "center", marginTop: "5px" }}>Folders</h4>
                 <ul className="ul-notes">
                     {folders.map((folder, index) => {
-                        return (<Folder key={index} initFolderName={folder.initFolderName} />);
+                        return (<Folder key={index} selectFolder={setSelectedFolder} id={folder.id} />);
                     })}
                     <li className='btn btn-green' onClick={addFolder}>Add folder</li>
                 </ul>
@@ -34,10 +59,12 @@ export function Notes() {
             <section className="section-notes">
                 <h4 style={{ textAlign: "center", marginTop: "5px" }}>Pages</h4>
                 <ul className="ul-notes">
-                    {currFolder.pages && currFolder.pages.map((page, index) => {
+                    {pages
+                        .filter((page, index) => page.folderId===currFolder)
+                        .map((page, index) => {
                         return (<li key={index}>{page.name}</li>);
                     })}
-                    <li className='btn btn-green' onClick={setCurrFolder}>ree</li>
+                    <li className='btn btn-green' onClick={addPage}>Add page</li>
                 </ul>
             </section>
             <Page name='ree' />
@@ -45,7 +72,7 @@ export function Notes() {
     )
 }
 
-function Folder( {id} ) {
+function Folder( {selectFolder, id} ) {
     const folderId=id;
     const [folderName, setName] = useState('myFolder');
     
@@ -59,10 +86,17 @@ function Folder( {id} ) {
         }
     }
 
+
+    function sendSelectedFolder() {
+        if (readOnly == true) {
+            selectFolder(folderId);
+        }
+    }
+
     const [pages, setPages] = useState([]);
 
     return (
-        <li className='li-notes'><input className='input-txt' onChange={rename} onKeyDown={finishRename} readOnly={readOnly} value={folderName} /></li>
+        <li className='li-notes'><input className='input-txt' onClick={sendSelectedFolder} onChange={rename} onKeyDown={finishRename} readOnly={readOnly} value={folderName} /></li>
     )
 }
 
@@ -70,7 +104,7 @@ function Page({ folderId, id, initPageName }) {
     const [pageName, setName] = useState(initPageName);
     const [nextNoteId, updateNoteId] = useState(1);
 
-    const [notes, setNotes] = useState([{ pageId:id, id: 0, x: 50, y: 50, text: '' }]);
+    const [notes, setNotes] = useState([{ id: 0, x: 50, y: 50, text: '' }]);
     const addNote = (event) => {
         if (event.target.className == 'section-blackboard') {
             const x = event.nativeEvent.offsetX;
