@@ -9,17 +9,15 @@ import folder_image from '../images/folder.png';
 
 
 export function Notes() {
-    const [folders, setFolders] = useState([ {} ]);
+    let nextFolderId = 1
+    const [folders, setFolders] = useState([ {folderId:0} ]);
 
     const addFolder = () => {
         setFolders((folders) => [...folders, { }]);
     }
 
-    const [currFolder, selectFolder] = useState(folders[0]);
-
-    const setCurrFolder = (event) => {
-        console.log(currFolder.pages);
-    }
+    const [currFolder, setCurrFolder] = useState(folders[0]);
+    const [currPage, setCurrPage] = useState(null);
 
 
     return (
@@ -47,7 +45,8 @@ export function Notes() {
     )
 }
 
-function Folder() {
+function Folder( {id} ) {
+    const folderId=id;
     const [folderName, setName] = useState('myFolder');
     
     const [readOnly, setReadOnly] = useState(false);
@@ -67,11 +66,11 @@ function Folder() {
     )
 }
 
-function Page({ initPageName }) {
+function Page({ folderId, id, initPageName }) {
     const [pageName, setName] = useState(initPageName);
     const [nextNoteId, updateNoteId] = useState(1);
 
-    const [notes, setNotes] = useState([{ id: 0, x: 50, y: 50, text: '' }]);
+    const [notes, setNotes] = useState([{ pageId:id, id: 0, x: 50, y: 50, text: '' }]);
     const addNote = (event) => {
         if (event.target.className == 'section-blackboard') {
             const x = event.nativeEvent.offsetX;
@@ -97,7 +96,7 @@ function Page({ initPageName }) {
     )
 }
 
-function Note({ id, x, y, text }) {
+function Note({ pageId, id, x, y, text }) {
     const [position, setPosition] = useState({ x: x, y: y })
     const drag = (event, data) => {
         setPosition({ x: data.x, y: data.y });
