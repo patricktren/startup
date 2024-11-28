@@ -25,13 +25,19 @@ export function Notes() {
     // current folder/page
     const [currFolder, setCurrFolder] = useState(folders[0].id);
     const [currPage, setCurrPage] = useState(0);
+    // const [currNotes, setCurrNotes] = useState();
 
     function setSelectedFolder(folderId) {
         setCurrFolder(folderId);
+        setCurrPage(pages.filter((page) => page.folderId === folderId)[0])
+        console.log('folder', folderId);
+        console.log(folders);
     }
 
     function setSelectedPage(pageId) {
         setCurrPage(pageId);
+        console.log('page', pageId);
+        console.log(pages);
     }
 
     const addFolder = () => {
@@ -39,7 +45,7 @@ export function Notes() {
         setFolders((folders) => [...folders, { id: nextFolderId, name: 'myFolder' }]);
 
         // initialize first page
-        setPages((pages) => [...pages, { folderId: nextFolderId, id: nextPageId }]);
+        setPages((pages) => [...pages, { folderId: nextFolderId, id: nextPageId, name: 'myPage' }]);
 
         // increment id's
         setNextFolderId(nextFolderId + 1);
@@ -52,8 +58,6 @@ export function Notes() {
 
         // increment page id
         setNextPageId(nextPageId + 1);
-
-        console.log(currPage);
     }
 
     const addNote = (event) => {
@@ -62,7 +66,7 @@ export function Notes() {
             const y = event.nativeEvent.offsetY;
             setNotes((prevNotes) => [...prevNotes, { pageId:currPage, id: nextNoteId, x: x, y: y, text: '' }]);
             // increment nextNoteId
-            updateNoteId(nextNoteId + 1);
+            setNextNoteId(nextNoteId + 1);
         }
     }
 
@@ -117,9 +121,9 @@ function Folder({ selectFolderFunc, id, name }) {
     const finishRename = (event) => {
         if (event.key === 'Enter') {
             setReadOnly(true);
+            selectFolderFunc(folderId);
         }
     }
-
 
     function sendSelectedFolder() {
         if (readOnly == true) {
@@ -147,6 +151,7 @@ function Page({ selectPageFunc, folderId, id, name }) {
     const finishRename = (event) => {
         if (event.key === 'Enter') {
             setReadOnly(true);
+            selectPageFunc(pageId);
         }
     }
 
