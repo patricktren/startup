@@ -125,13 +125,20 @@ a:hover {
 }
 
 .btn-green {
-
     @extend .txt-green;
     background-color: #2f2f2f;
 }
 .btn-green:hover {
     @extend .txt-white;
 }
+
+.btn-green:disabled {
+    @extend .txt-green;
+    background-color: #2f2f2f;
+    opacity: 0.6;
+}
+
+
 
 .input-txt {
     /*text box*/

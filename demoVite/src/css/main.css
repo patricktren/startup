@@ -104,7 +104,7 @@ footer {
 
 /* end of notes page */
 /* text, buttons, images */
-.txt-green, .btn-green, a, nav, footer {
+.txt-green, .btn-green:disabled, .btn-green, a, nav, footer {
   color: #09ed92;
   font-family: sans-serif;
 }
@@ -120,6 +120,11 @@ a {
 
 .btn-green {
   background-color: #2f2f2f;
+}
+
+.btn-green:disabled {
+  background-color: #2f2f2f;
+  opacity: 0.6;
 }
 
 .input-txt, .input-note {
