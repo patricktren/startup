@@ -383,3 +383,29 @@ console.log('done');
 
 // OUTPUT: {email: 'bud@mail.com', authenticated: true}
 // OUTPUT: done
+
+
+React
+---------------------------------------
+Components:
+- pass data from child to parent using a function that is passed to the child from the parent
+
+Routes:
+- example:
+<BrowserRouter>
+    <header>
+        <nav>
+            <ui>
+                <li className="nav-li"><NavLink to="">Home</NavLink></li>
+            </ui>
+        </nav>
+    </header>
+    <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/notes" element={<Notes />} />
+        <Route path="/share-notes" element={<ShareNotes />} />
+        <Route path="/about" element={<About />} />
+    </Routes>
+    <footer>
+    </footer>
+</BrowserRouter>
