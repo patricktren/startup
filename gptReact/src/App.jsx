@@ -12,7 +12,7 @@ import { Notes } from './pages/notes.jsx';
 import { ShareNotes } from './pages/shareNotes.jsx';
 import { About } from './pages/about.jsx';
 
-import { AuthState } from './login/authState';
+import { AuthState } from './login/authState.js';
 
 // images
 import logo from './images/gpt-notes_logo_extradarkmode.png'
