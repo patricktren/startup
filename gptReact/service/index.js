@@ -55,5 +55,21 @@ apiRouter.post("/auth/login", async (req, res) => {
     res.status(401).send({ msg: "Unauthorized" });
 });
 
+// DeleteAuth logout a user
+apiRouter.delete("/auth/logout", (req, res) => {
+    const user = Object.values(users).find((u) => u.token === req.body.token);
+    if (user) {
+        delete user.token;
+    }
+    res.status(204).end();
+});
 
+// Return the application's default page if the path is unknown
+app.use((_req, res) => {
+    res.sendFile("index.html", { root: "public" });
+});
+
+app.listen(port, () => {
+    console.log(`Listening on port ${port}`);
+});
 

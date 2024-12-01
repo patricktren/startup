@@ -24,10 +24,18 @@ function App() {
 
     const navigate = useNavigate();
     function logout() {
-        localStorage.removeItem('userName');
-        setUserName(null);
-        setAuthState(AuthState.Unauthenticated);
-        navigate('/');
+        fetch(`/api/auth/logout`, {
+            method: 'delete',
+        })
+            .catch(() => {
+                // Logout failed. Assuming offline
+            })
+            .finally(() => {
+                localStorage.removeItem('userName');
+                setUserName(null);
+                setAuthState(AuthState.Unauthenticated);
+                navigate('/');
+            });
     }
 
     return (
