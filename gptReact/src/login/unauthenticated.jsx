@@ -10,16 +10,14 @@ import gpt_notes_example from "../images/gpt-notes-example.png";
 export function Unauthenticated(props) {
     const [userName, setUserName] = React.useState(props.userName);
     const [password, setPassword] = React.useState('');
-    const [displayError, setDisplayError] = React.useState(null);
+    const [displayError, setDisplayError] = React.useState('');
 
     async function loginUser() {
         loginOrCreate(`/api/auth/login`);
-        props.onLogin(userName);
     }
 
     async function createUser() {
         loginOrCreate(`/api/auth/create`);
-        props.onLogin(userName);
     }
 
     async function loginOrCreate(endpoint) {
@@ -36,6 +34,7 @@ export function Unauthenticated(props) {
         } else {
             const body = await response.json();
             setDisplayError(`⚠ Error: ${body.msg}`);
+            console.log(`⚠ Error: ${body.msg}`);
         }
     }
 
@@ -48,7 +47,7 @@ export function Unauthenticated(props) {
                     <p></p>
                     <h3>Password:</h3>
                     <input className="input-txt" type='password' onChange={(e) => setPassword(e.target.value)} placeholder='password' />
-                    <p></p>
+                    <p>{displayError}</p>
                     <button onClick={() => loginUser()} disabled={!userName || !password} className="btn btn-green">Login</button>
                     <button onClick={() => createUser()} disabled={!userName || !password} className="btn btn-green">Create</button>
                 </section>
