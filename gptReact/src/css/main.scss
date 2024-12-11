@@ -149,7 +149,7 @@ a:hover {
     @extend .txt-white;
 }
 
-.input-note {
+.input-note-textarea {
     @extend .input-txt;
     @extend .scrollbar-dark;
     background-color: rgb(47, 47, 47, .35);
@@ -159,11 +159,12 @@ a:hover {
     border-radius: 1px;
     resize: none;
     flex: 1;
+    padding: 8px;
 }
-.input-note:hover {
+.input-note-textarea:hover {
     border: #212121 2px solid;
 }
-.input-note:focus {
+.input-note-textarea:focus {
     border: #212121 2px solid;
     outline: none;
 }
@@ -211,7 +212,7 @@ a:hover {
     cursor: move;
 }
 
-.div-note:hover .input-note {
+.div-note:hover .input-note-textarea {
     border: #212121 2px solid;
 }
 

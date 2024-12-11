@@ -1,3 +1,8 @@
+
+
+
+// const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
+
 // allow code to select a port to run on based on the command line parameters
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
@@ -23,6 +28,55 @@ let folders = {};
 let pages = {};
 let notes = {};
 
+// send folders, pages, and notes
+apiRouter.get("/notes", async (req, res) => {
+    const userName = req.body.userName;
+    const token = req.body.token;
+    if (token != users[userName].token) {
+        res.status(400).send({ msg: "Not authorized" });
+    } else {
+        res.send({
+            folders: folders[userName],
+            pages: pages[userName],
+            notes: notes[userName]
+        });
+    }
+});
+
+// save folders, pages, and notes
+apiRouter.post("/notes", async (req, res) => {
+    const userName = req.body.userName
+    if (!userName | userName === '') {
+        res.status(409).send({ msg: "Existing user" });
+    } else {
+        folders[userName] = req.body.folders;
+        pages[userName] = req.body.pages;
+        notes[userName] = req.body.notes;
+    }
+});
+
+// chatgpt call
+const OpenAI = require('openai');
+const fs = require('fs');
+const filePath = 'service/gpt_api_key.txt';
+const OPENAI_API_KEY = fs.readFileSync(filePath, 'utf8');
+const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+
+apiRouter.post("/gpt", async (req, res) => {
+    const prompt = req.body.prompt;
+
+    const completion = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+            { role: "system", content: "You are a helpful assistant." },
+            {
+                role: "user",
+                content: prompt,
+            },
+        ],
+    });
+    res.send({ gptResponse: completion.choices[0].message });
+});
 
 // CreateAuth a new user
 apiRouter.post("/auth/create", async (req, res) => {
@@ -72,4 +126,3 @@ app.use((_req, res) => {
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
-

@@ -109,7 +109,7 @@ footer {
   font-family: sans-serif;
 }
 
-.txt-white, .input-txt, .input-note, .btn-green:hover, a:hover, .main-login, .main-notes {
+.txt-white, .input-txt, .input-note-textarea, .btn-green:hover, a:hover, .main-login, .main-notes {
   color: #eeeeee;
   font-family: sans-serif;
 }
@@ -127,7 +127,7 @@ a {
   opacity: 0.6;
 }
 
-.input-txt, .input-note {
+.input-txt, .input-note-textarea {
   /*text box*/
   background-color: rgb(47, 47, 47);
   border: none;
@@ -135,7 +135,7 @@ a {
   /*text*/
 }
 
-.input-note {
+.input-note-textarea {
   background-color: rgba(47, 47, 47, 0.35);
   width: 100%;
   height: 100%;
@@ -143,13 +143,14 @@ a {
   border-radius: 1px;
   resize: none;
   flex: 1;
+  padding: 8px;
 }
 
-.input-note:hover {
+.input-note-textarea:hover {
   border: #212121 2px solid;
 }
 
-.input-note:focus {
+.input-note-textarea:focus {
   border: #212121 2px solid;
   outline: none;
 }
@@ -200,12 +201,12 @@ a {
   cursor: move;
 }
 
-.div-note:hover .input-note {
+.div-note:hover .input-note-textarea {
   border: #212121 2px solid;
 }
 
 /* WebKit browsers (Chrome, Safari) */
-.scrollbar-dark, .section-notes, .input-note {
+.scrollbar-dark, .section-notes, .input-note-textarea {
   color: inherit;
 }
 

@@ -2,6 +2,8 @@ import React from 'react';
 
 // import { MessageDialog } from './messageDialog';
 
+import { AuthState } from './authState';
+
 import "../css/main.css";
 
 import gpt_notes_example from "../images/gpt-notes-example.png";
@@ -29,8 +31,10 @@ export function Unauthenticated(props) {
             },
         });
         if (response?.status === 200) {
+            const body = await response.json();
             localStorage.setItem('userName', userName);
-            props.onLogin(userName);
+            localStorage.setItem('authToken', body.token);
+            props.onLogin(userName, AuthState.Authenticated, token=body.token);
         } else {
             const body = await response.json();
             setDisplayError(`⚠ Error: ${body.msg}`);

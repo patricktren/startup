@@ -23,7 +23,7 @@ export function Index({ user, authState, onAuthChange }) {
                     <Unauthenticated
                         userName={userName}
                         onLogin={(loginUserName) => {
-                            onAuthChange(loginUserName, AuthState.Authenticated);
+                            onAuthChange(loginUserName, authState, token);
                         }}
                     />
                 )}

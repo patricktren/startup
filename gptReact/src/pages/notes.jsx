@@ -4,14 +4,15 @@ import Draggable from 'react-draggable';
 
 
 import "../css/main.css";
-import gpt_notes_design from '../images/gpt-notes_design.png';
 import folder_image from '../images/folder.png';
 
+export function Notes({ userName, token }) {
 
-export function Notes() {
     const [folders, setFolders] = useState([ {id: 0, name: 'New Folder', readOnly: false} ]);
     const [pages, setPages] = useState([ {folderId: 0, id: 0, name: 'New Page', readOnly: false} ]);
     const [notes, setNotes] = useState([ {pageId: 0, id: 0, x: 0, y: 0, text: ''} ]);
+
+    
 
     // next folder id
     const [nextFolderId, setNextFolderId] = useState(1);
@@ -110,6 +111,7 @@ export function Notes() {
                 </ul>
             </section>
             <section className="section-blackboard" onClick={(event) => { addNote(event); deleteNote(event) }}>
+                <button onClick={() => saveNotes(userName, folders, pages, notes)} className="btn btn-green">Save Notes</button>
                 {notes
                     .filter((note, index) => note.pageId === currPage)
                     .map((note, index) => {
@@ -191,12 +193,82 @@ function Note({ updateNoteFunc, pageId, id, x, y, text }) {
         updateNoteFunc(pageId, id, x, y, event.target.value);
     }
 
+    async function gptCall(event) {
+        if (event.key === 'Enter' && event.ctrlKey) {
+            const prompt = content;
+            updateContent(content + '\n\n' + "Getting Chat's response...");
+
+            const gptResponse = await gpt(prompt);
+            updateContent(prompt + '\n\n' + gptResponse);
+            updateNoteFunc(pageId, id, x, y, prompt + '\n\n' + gptResponse);
+        }
+    }
+
     return (
         <Draggable handle='.div-note-grabber' bounds='parent' position={position} onDrag={drag}>
             <div className="div-note">
                 <div className="div-note-grabber">....<span id={id} className='div-note-delete'>x</span></div>
-                <textarea className="input-note" onChange={contentChange} value={content} />
+                <textarea className="input-note-textarea" onKeyDown={event => gptCall(event)} onChange={contentChange} value={content} placeholder="Write your query here and press 'ctrl + enter' to send it." />
             </div>
         </Draggable>
     )
+}
+
+async function getNotes(userName, token, setData) {
+    const response = await fetch("api/notes", {
+        method: 'get',
+        body: JSON.stringify({
+            userName: userName,
+            token: token,
+        }),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+        },
+    });
+    if (response?.status === 200) {
+        setData(response.folders.content, response.pages.content, response.notes.content);
+        console.log(response.folders.content);
+    } else {
+        console.log(response.status);
+        const body = await response.json();
+        console.log(`⚠ Error: ${body.msg}`);
+        // return "There was an error.";
+    }
+}
+
+async function saveNotes(userName, folders, pages, notes) {
+    const response = await fetch("api/notes", {
+        method: 'post',
+        body: JSON.stringify({
+            userName: userName,
+            folders: folders,
+            pages: pages,
+            notes: notes
+        }),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+        },
+    });
+}
+
+async function gpt(userPrompt) {
+    const response = await fetch("api/gpt", {
+        method: 'post',
+        body: JSON.stringify({ prompt: userPrompt }),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+        },
+    });
+    if (response?.status === 200) {
+        console.log(response.status);
+        const gptResponse = await response.json();
+        console.log(gptResponse);
+        return gptResponse.gptResponse.content;
+    } else {
+        console.log(response.status);
+        const body = await response.json();
+        console.log(`⚠ Error: ${body.msg}`);
+        return "There was an error.";
+    }
+
 }

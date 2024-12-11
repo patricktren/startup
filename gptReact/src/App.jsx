@@ -19,6 +19,7 @@ import logo from './images/gpt-notes_logo_extradarkmode.png'
 
 function App() {
     const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
+    const [token, setToken] = useState(localStorage.getItem('authToken'));
     const currentAuthState = userName ? AuthState.Authenticated : AuthState.Unauthenticated;
     const [authState, setAuthState] = React.useState(currentAuthState);
 
@@ -32,6 +33,7 @@ function App() {
             })
             .finally(() => {
                 localStorage.removeItem('userName');
+                localStorage.removeItem('authToken');
                 setUserName(null);
                 setAuthState(AuthState.Unauthenticated);
                 navigate('/');
@@ -55,7 +57,7 @@ function App() {
                     </ul>
 
                     <div className="nav-div-user-info">
-                        <p className="txt-white">{userName}</p>
+                        <p className="txt-white">{userName} {token}</p>
                         {authState === AuthState.Authenticated && (
                             <button onClick={() => logout()} className="btn btn-green">Sign Out</button>
                         )}
@@ -67,15 +69,16 @@ function App() {
                 <Route path="/" element={<Index
                     userName={userName}
                     authState={authState}
-                    onAuthChange={(userName, authState) => {
+                    onAuthChange={(userName, authState, token) => {
                         setAuthState(authState);
                         setUserName(userName);
+                        setToken(token);
                     }}
                 />
                 }
                     exact
                 />
-                <Route path="/notes" element={<Notes />} />
+                <Route path="/notes" element={<Notes userName={userName} token={token} />} />
                 <Route path="/share-notes" element={<ShareNotes />} />
                 <Route path="/about" element={<About />} />
             </Routes>
