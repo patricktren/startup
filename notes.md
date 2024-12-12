@@ -409,3 +409,20 @@ Routes:
     <footer>
     </footer>
 </BrowserRouter>
+
+
+
+
+# Debugging pushing to production
+$ ssh -i C:/Users/patri/Documents/gpt-notes/production.pem ubuntu@reciprocal.me
+cd services
+cd startup
+node index.js
+
+look in the file above; when you type node index.js, it should tell you of any problems.
+Repeat until it doesn't show you anything.
+
+# APIs!!
+I learned that using API's can be really easy! It was React and JS that made it an enormous pain.
+
+
