@@ -62,3 +62,24 @@ The following webpages were added:
   - added CSS for header and text
   - added CSS for email input to share
   - dark theme
+
+
+# React + Vite
+
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+
+
+# Service
+For this deliverable I added backend endpoints that record and retrieve notes. I also made it so users can query ChatGPT
+
+- [x] **Node.js/Express HTTP service** - done!
+- [x] **Static middleware for frontend** - done!
+- [X] **Calls to third party endpoints** - Calls OpenAI's API key
+- [x] **Backend service endpoints** - Placeholders for login that stores the current user on the server. Endpoints for note data.
+- [x] **Frontend calls service endpoints** - I did this using the fetch function.

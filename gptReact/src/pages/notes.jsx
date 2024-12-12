@@ -6,13 +6,19 @@ import Draggable from 'react-draggable';
 import "../css/main.css";
 import folder_image from '../images/folder.png';
 
-export function Notes({ userName, token }) {
+export function Notes({ userName }) {
 
-    const [folders, setFolders] = useState([ {id: 0, name: 'New Folder', readOnly: false} ]);
-    const [pages, setPages] = useState([ {folderId: 0, id: 0, name: 'New Page', readOnly: false} ]);
-    const [notes, setNotes] = useState([ {pageId: 0, id: 0, x: 0, y: 0, text: ''} ]);
-
+    // const [folders, setFolders] = useState([ {id: 0, name: 'New Folder', readOnly: false} ]);
+    // const [pages, setPages] = useState([ {folderId: 0, id: 0, name: 'New Page', readOnly: false} ]);
+    // const [notes, setNotes] = useState([ {pageId: 0, id: 0, x: 0, y: 0, text: ''} ]);
     
+    const [folders, setFolders] = useState([]);
+    const [pages, setPages] = useState([]);
+    const [notes, setNotes] = useState([]);
+    
+    console.log('notes: ',notes);
+
+    const [dataRefreshed, setDataRefreshed] = useState(false);
 
     // next folder id
     const [nextFolderId, setNextFolderId] = useState(1);
@@ -24,7 +30,7 @@ export function Notes({ userName, token }) {
     const [nextNoteId, setNextNoteId] = useState(1);
 
     // current folder/page
-    const [currFolder, setCurrFolder] = useState(folders[0].id);
+    const [currFolder, setCurrFolder] = useState(0);
     const [currPage, setCurrPage] = useState(0);
 
     function setSelectedFolder(folderId) {
@@ -70,7 +76,11 @@ export function Notes({ userName, token }) {
         if (event.target.className == 'section-blackboard') {
             const x = event.nativeEvent.offsetX;
             const y = event.nativeEvent.offsetY;
-            setNotes((prevNotes) => [...prevNotes, { pageId:currPage, id: nextNoteId, x: x, y: y, text: '' }]);
+            if (notes.length > 0) {
+                setNotes((prevNotes) => [...prevNotes, { pageId:currPage, id: nextNoteId, x: x, y: y, text: '' }]);
+            } else {
+                setNotes([ { pageId:currPage, id: nextNoteId, x: x, y: y, text: '' } ])
+            }
             // increment nextNoteId
             setNextNoteId(nextNoteId + 1);
         }
@@ -88,12 +98,32 @@ export function Notes({ userName, token }) {
         console.log(text);
     }
 
+    React.useEffect(() => {
+        fetch("api/notesGet", {
+            method: 'post',
+            body: JSON.stringify({
+                userName: userName,
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (Object.keys(data).length > 0) {
+                setFolders(data.folders);
+                setPages(data.pages);
+                setNotes(data.notes);
+            }
+        });
+    }, []);
+
     return (
         <main className="main-notes">
             <section className="section-notes">
                 <h4 style={{ textAlign: "center", marginTop: "5px" }}>Folders</h4>
                 <ul className="ul-notes">
-                    {folders.map((folder, index) => {
+                    {folders && folders.map((folder, index) => {
                         return (<Folder key={folder.id} selectFolderFunc={setSelectedFolder} renameFolderFunc={renameFolder} id={folder.id} name={folder.name} readOnly={folder.readOnly} />);
                     })}
                     <li className='btn btn-green' onClick={addFolder}>Add folder</li>
@@ -102,7 +132,7 @@ export function Notes({ userName, token }) {
             <section className="section-notes">
                 <h4 style={{ textAlign: "center", marginTop: "5px" }}>Pages</h4>
                 <ul className="ul-notes">
-                    {pages
+                    {pages && pages
                         .filter((page, index) => page.folderId === currFolder)
                         .map((page, index) => {
                             return (<Page key={page.id} selectPageFunc={setSelectedPage} renamePageFunc={renamePage} folderId={page.folderId} id={page.id} name={page.name} readOnly={page.readOnly} />);
@@ -112,7 +142,7 @@ export function Notes({ userName, token }) {
             </section>
             <section className="section-blackboard" onClick={(event) => { addNote(event); deleteNote(event) }}>
                 <button onClick={() => saveNotes(userName, folders, pages, notes)} className="btn btn-green">Save Notes</button>
-                {notes
+                {notes && notes
                     .filter((note, index) => note.pageId === currPage)
                     .map((note, index) => {
                     return (<Note key={note.id} updateNoteFunc={updateNote} id={note.id} x={note.x} y={note.y} text={note.text} />);
@@ -214,12 +244,11 @@ function Note({ updateNoteFunc, pageId, id, x, y, text }) {
     )
 }
 
-async function getNotes(userName, token, setData) {
+async function getNotes(userName, setData) {
     const response = await fetch("api/notes", {
         method: 'get',
         body: JSON.stringify({
             userName: userName,
-            token: token,
         }),
         headers: {
             'Content-type': 'application/json; charset=UTF-8',

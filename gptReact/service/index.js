@@ -1,7 +1,6 @@
 
 
-
-// const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
+const config = require('./gpt_api_key.json');
 
 // allow code to select a port to run on based on the command line parameters
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
@@ -9,6 +8,8 @@ const port = process.argv.length > 2 ? process.argv[2] : 4000;
 const express = require('express');
 const uuid = require('uuid');
 const app = express();
+const OpenAI = require('openai');
+const fs = require('fs');
 
 // Serve up the front-end static content hosting
 app.use(express.static('public'));
@@ -29,18 +30,18 @@ let pages = {};
 let notes = {};
 
 // send folders, pages, and notes
-apiRouter.get("/notes", async (req, res) => {
+apiRouter.post("/notesGet", async (req, res) => {
     const userName = req.body.userName;
-    const token = req.body.token;
-    if (token != users[userName].token) {
-        res.status(400).send({ msg: "Not authorized" });
-    } else {
-        res.send({
-            folders: folders[userName],
-            pages: pages[userName],
-            notes: notes[userName]
-        });
+    if (!(userName in folders) || folders[userName].length == 0) {
+        folders[userName] = [ {id: 0, name: 'New Folder', readOnly: false} ];
+        pages[userName] = [ {folderId: 0, id: 0, name: 'New Page', readOnly: false} ];
+        notes[userName] = [ {pageId: 0, id: 0, x: 0, y: 0, text: ''} ];
     }
+    res.send({
+        folders: folders[userName],
+        pages: pages[userName],
+        notes: notes[userName],
+    });
 });
 
 // save folders, pages, and notes
@@ -56,10 +57,7 @@ apiRouter.post("/notes", async (req, res) => {
 });
 
 // chatgpt call
-const OpenAI = require('openai');
-const fs = require('fs');
-const filePath = 'service/gpt_api_key.txt';
-const OPENAI_API_KEY = fs.readFileSync(filePath, 'utf8');
+const OPENAI_API_KEY = config.API_KEY;
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
 apiRouter.post("/gpt", async (req, res) => {

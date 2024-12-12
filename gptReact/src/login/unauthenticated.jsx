@@ -33,8 +33,8 @@ export function Unauthenticated(props) {
         if (response?.status === 200) {
             const body = await response.json();
             localStorage.setItem('userName', userName);
-            localStorage.setItem('authToken', body.token);
-            props.onLogin(userName, AuthState.Authenticated, token=body.token);
+            // localStorage.setItem('authToken', body.token);
+            props.onLogin(userName, AuthState.Authenticated);
         } else {
             const body = await response.json();
             setDisplayError(`⚠ Error: ${body.msg}`);
