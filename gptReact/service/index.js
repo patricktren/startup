@@ -8,8 +8,10 @@ const port = process.argv.length > 2 ? process.argv[2] : 4000;
 const express = require('express');
 const uuid = require('uuid');
 const app = express();
+const bcrypt = require('bcrypt');
 const OpenAI = require('openai');
 const fs = require('fs');
+const DB = require('./database.js');
 
 // Serve up the front-end static content hosting
 app.use(express.static('public'));
@@ -21,38 +23,40 @@ app.use(express.json());
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
-// These data are saved in memory and disappear whenever the service is restarted.
-let users = {};
-
-// each of these will have the username as the key and the list of items as the value
-let folders = {};
-let pages = {};
-let notes = {};
 
 // send folders, pages, and notes
 apiRouter.post("/notesGet", async (req, res) => {
     const userName = req.body.userName;
-    if (!(userName in folders) || folders[userName].length == 0) {
-        folders[userName] = [ {id: 0, name: 'New Folder', readOnly: false} ];
-        pages[userName] = [ {folderId: 0, id: 0, name: 'New Page', readOnly: false} ];
-        notes[userName] = [ {pageId: 0, id: 0, x: 0, y: 0, text: ''} ];
+    const data = await DB.getDataByUsername(userName);
+    if (!data) {
+        res.send({
+            folders: [{ id: 0, name: 'New Folder', readOnly: false }],
+            pages: [{ folderId: 0, id: 0, name: 'New Page', readOnly: false }],
+            notes: [{ pageId: 0, id: 0, x: 0, y: 0, text: '' }],
+        })
+    } else {
+        res.send({
+            folders: data.folders,
+            pages: data.pages,
+            notes: data.notes,
+        });
     }
-    res.send({
-        folders: folders[userName],
-        pages: pages[userName],
-        notes: notes[userName],
-    });
+
 });
 
 // save folders, pages, and notes
 apiRouter.post("/notes", async (req, res) => {
     const userName = req.body.userName
     if (!userName | userName === '') {
-        res.status(409).send({ msg: "Existing user" });
+        res.status(409).send({ msg: "Not logged in" });
     } else {
-        folders[userName] = req.body.folders;
-        pages[userName] = req.body.pages;
-        notes[userName] = req.body.notes;
+        const data = {
+            userName: userName,
+            folders: req.body.folders,
+            pages: req.body.pages,
+            notes: req.body.notes,
+        }
+        await DB.setDataByUsername(data);
     }
 });
 
@@ -76,45 +80,46 @@ apiRouter.post("/gpt", async (req, res) => {
     res.send({ gptResponse: completion.choices[0].message });
 });
 
-// CreateAuth a new user
-apiRouter.post("/auth/create", async (req, res) => {
-    const user = users[req.body.email];
-    if (user) {
-        res.status(409).send({ msg: "Existing user" });
+// CreateAuth token for a new user
+apiRouter.post('/auth/create', async (req, res) => {
+    console.log('ree: ', typeof(DB.getUser));
+    if (await DB.getUser(req.body.userName)) {
+        res.status(409).send({ msg: 'Existing user' });
     } else {
-        const user = {
-            email: req.body.email,
-            password: req.body.password,
-            token: uuid.v4(),
-        };
-        users[user.email] = user;
+        const user = await DB.createUser(req.body.userName, req.body.password);
 
-        res.send({ token: user.token });
+        // Set the cookie
+        // setAuthCookie(res, user.token);
+
+        res.send({
+            id: user._id,
+        });
     }
 });
 
 
-// GetAuth login an existing user
-apiRouter.post("/auth/login", async (req, res) => {
-    const user = users[req.body.email];
+// GetAuth token for the provided credentials
+apiRouter.post('/auth/login', async (req, res) => {
+    console.log('ree: ', typeof(DB.getUser));
+    const user = await DB.getUser(req.body.userName);
     if (user) {
-        if (req.body.password === user.password) {
-            user.token = uuid.v4();
-            res.send({ token: user.token });
+        if (await bcrypt.compare(req.body.password, user.password)) {
+            // setAuthCookie(res, user.token);
+            res.send({ id: user._id });
             return;
         }
+        else {
+            res.status(401).send({ msg: 'Incorrect username or password.' });
+        }
     }
-    res.status(401).send({ msg: "Unauthorized" });
+    res.status(401).send({ msg: 'Unauthorized' });
 });
 
-// DeleteAuth logout a user
-apiRouter.delete("/auth/logout", (req, res) => {
-    const user = Object.values(users).find((u) => u.token === req.body.token);
-    if (user) {
-        delete user.token;
-    }
+// DeleteAuth token if stored in cookie
+apiRouter.delete('/auth/logout', (_req, res) => {
     res.status(204).end();
 });
+
 
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {

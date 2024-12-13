@@ -39,6 +39,7 @@ function App() {
                 navigate('/');
             });
     }
+    console.log('auth ', authState)
 
     return (
         <div>
@@ -69,9 +70,10 @@ function App() {
                 <Route path="/" element={<Index
                     userName={userName}
                     authState={authState}
-                    onAuthChange={(userName, authState, token) => {
+                    onAuthChange={(userName, authState) => {
                         setAuthState(authState);
                         setUserName(userName);
+                        window.location.reload();
                     }}
                 />
                 }
